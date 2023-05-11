@@ -1,10 +1,10 @@
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import User from '../interface/User';
+import User from '../model/User';
 
 export type RootStackParamList = {
-    Home: { user: User };
+    Home: undefined;
     Login: undefined;
     DetailUser: { user: User };
 };

@@ -1,28 +1,20 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
-import { IconButton } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-
-import User from '../../../interface/User';
-// Define the param list for the stack navigator
+import User from '../../../model/User';
 interface DetailUserProps {
     user: User;
     navigation: any;
-    idUserCurrent: number;
+    idUserCurrent?: number;
 }
 
-
-
 const UserItem: React.FC<DetailUserProps> = ({ user, navigation, idUserCurrent }) => {
-
     const handleOnClick = () => {
         navigation.navigate('DetailUser', { user });
     };
 
-
     return (
-        <TouchableOpacity style={[styles.wrapper, user.user_id === idUserCurrent && styles.wrapperUserCurrent]} onPress={handleOnClick} >
+        <TouchableOpacity style={[styles.wrapper, user?.user_id === idUserCurrent && styles.wrapperUserCurrent]} onPress={handleOnClick} >
             <View style={styles.number}>
                 <Text style={styles.numberText}>{user.rank}</Text>
             </View>
@@ -34,10 +26,9 @@ const UserItem: React.FC<DetailUserProps> = ({ user, navigation, idUserCurrent }
                 <Text style={styles.numberPost}>{user.score} score</Text>
             </View>
             <View style={styles.icon}>
-                <IconButton icon={props => <Icon name="chevron-right" {...props} />} />
+                <Icon name="chevron-right" />
             </View>
         </TouchableOpacity>
-
     );
 };
 /**

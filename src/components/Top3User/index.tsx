@@ -1,17 +1,15 @@
 import React from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
-import User from '../../interface/User';
+import User from '../../model/User';
 import UserItemIntop3 from './UserItemInTop3';
 // import { FaCrown } from 'react-icons/fa';
-
 
 type Top3UsersProps = {
     data: User[];
     navigation: any;
-    userCurrent: Object;
 }
 
-const Top3Users: React.FC<Top3UsersProps> = ({ data, navigation, userCurrent }) => {
+const Top3Users: React.FC<Top3UsersProps> = ({ data, navigation }) => {
     // console
     // change position
     if (data.length === 4 || data.length === 3) {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import User from "../../../interface/User";
+import User from "../../../model/User";
 
 export interface UserDetailState {
     userOnclick: User;

@@ -19,7 +19,7 @@ const App: React.FC = () => {
     return (
         <Provider store={store}>
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="Login"
+                <Stack.Navigator
                     screenOptions={{
                         headerStyle: {
                             backgroundColor: '#fea014',
@@ -31,29 +31,20 @@ const App: React.FC = () => {
                         },
                     }}
                 >
+                    <Stack.Screen name="Home"
+                        component={Home}
+                        options={{ headerShown: false }}
+                    />
                     <Stack.Screen name="Login"
                         component={LoginScreen}
                         //no show header
                         // options={{ headerShown: false }}
                         options={{ title: 'Login' }}
                     />
-                    <Stack.Screen name="Home"
-                        component={Home}
-                        // options={{
-                        //     title: 'User Ranking',
-                        //     headerLeft: () => null,
-                        //     headerRight: () => (
-                        //         <Icon name="logout" size={30} color="white"
-                        //             onPress={() => alert('Logout')}
-                        //         />
-                        //     )
-                        // }}
-                        options={{ headerShown: false }}
-                    />
+
                     <Stack.Screen
                         name="DetailUser"
                         component={DetailUser}
-
                     />
                 </Stack.Navigator>
             </NavigationContainer>

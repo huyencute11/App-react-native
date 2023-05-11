@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { users } from '../../data/user';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleAuth, setUserLogin } from '../../redux/store/auth';
+import { RootState } from '../../redux/store';
+import { userPostInYear } from '../../data/users';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types/RootStackParamList ';
@@ -8,13 +11,20 @@ import { RootStackParamList } from '../../types/RootStackParamList ';
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 const LoginScreen = () => {
+    const dispatch = useDispatch();
+    const auth = useSelector((state: RootState) => state.auth);
+
     const navigation = useNavigation<LoginScreenNavigationProp>();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
     const handleLogin = () => {
-        const user = users.find((user) => user.username === username);
+        const user = userPostInYear.find((user) => user.username === username);
         if (user && user.password === password) {
-            navigation.navigate('Home', { user });
+            navigation.navigate('Home');
+            // console.log(auth);
+            dispatch(toggleAuth(true))
+            dispatch(setUserLogin(user))
         }
         else {
             alert("Wrong username or password");
@@ -41,7 +51,6 @@ const LoginScreen = () => {
             </TouchableOpacity>
         </View>
     );
-
 };
 
 const styles = StyleSheet.create({

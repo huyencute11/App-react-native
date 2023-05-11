@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import User from '../../interface/User';
+import User from '../../model/User';
 import { ITEM_USER_HEIGHT, HEIGHT_NAV_RANKING, VIEW_POINT_HEIGHT } from '../../constant/dimention';
 import { View, Text, StyleSheet, Image, SafeAreaView } from 'react-native';
 

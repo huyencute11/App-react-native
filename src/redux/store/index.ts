@@ -3,6 +3,7 @@ import usersReducer, { UserState } from "./user/userSlice";
 import termsReducer, { TermState } from "./term/termSlice";
 import authReducer, { AuthState } from "./auth";
 import userClickReducer, { UserDetailState } from "./userDetail";
+import filterReducer, { filterState } from "./filter";
 
 // Define the type of state for our Redux store
 export interface RootState {
@@ -10,6 +11,7 @@ export interface RootState {
     terms: TermState;
     userClickShowDetail: UserDetailState;
     auth: AuthState;
+    filter: filterState;
 }
 
 // Create the Redux store
@@ -19,7 +21,7 @@ const store = configureStore({
         terms: termsReducer,
         userClickShowDetail: userClickReducer,
         auth: authReducer,
-
+        filter: filterReducer
     }
 });
 

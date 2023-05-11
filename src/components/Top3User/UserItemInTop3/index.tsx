@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { IconButton } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { setUserSelectedDetail } from '../../../redux/store/userDetail';
-import User from '../../../interface/User';
+import User from '../../../model/User';
 
 type UserItemTop3Props = {
     userInTop3: User;

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, LogBox } from 'react-native';
 import TermItem from './TermItem';
-import Term from '../../interface/Term';
-import { IconButton } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
 const ListTerm: React.FC = () => {

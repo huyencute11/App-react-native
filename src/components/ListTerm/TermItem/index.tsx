@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getTerms } from '../../../redux/store/term/actions';
 import { View, Text, StyleSheet } from 'react-native';
-import Term from '../../../interface/Term';
+import Term from '../../../model/Term';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { AppDispatch } from '../../../types/AppDispatch';

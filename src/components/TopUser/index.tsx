@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch } from '../../types/AppDispatch';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { setFilterByAct, setFilterByDate } from '../../redux/store/filter';
+import { RootState } from '../../redux/store';
+import * as filter from '../../constant/filters';
 import Top3Users from '../Top3User';
-import User from '../../interface/User';
+import User from '../../model/User';
 import { IconButton } from '@react-native-material/core';
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
 type TopUsersProps = {
     data: User[];
     navigation: any;
-    userCurrent: User;
+    rankCurrent: number | undefined;
+    userCurrent?: User;
 
 };
 
-const TopUsers: React.FC<TopUsersProps> = ({ data, navigation, userCurrent }) => {
-
+const TopUsers: React.FC<TopUsersProps> = ({ data, navigation, userCurrent, rankCurrent }) => {
+    console.log('rankCurrent', rankCurrent)
+    const filterAction = useSelector((state: RootState) => state.filter);
     const lengthData = data.length;
+    const dispatch: AppDispatch = useDispatch();
+    // Memoize component 
+    const memoizedTop3Users = useMemo(() => <Top3Users data={data} navigation={navigation} />, [data]);
 
-    const FILTER_BY_MONTH_OR_YEAR = {
-        YEAR: 'YEARLY',
-        MONTH: 'MONTHLY',
-    };
-    const FILTER_BY_ACT = {
-        POST: 'POST',
-        WANT_TO_GO: 'WANT TO GO',
-    };
-    const [activeAct, setActiveAct] = useState<string>(FILTER_BY_ACT.POST);
-    const [filterActiveByMonthOrYear, setFilterActiveByMonthOrYear] = useState<string>(FILTER_BY_MONTH_OR_YEAR.MONTH);
-    const activePost = activeAct === FILTER_BY_ACT.POST
-    const activeWantToGo = activeAct === FILTER_BY_ACT.WANT_TO_GO
-    const activeMonth = filterActiveByMonthOrYear === FILTER_BY_MONTH_OR_YEAR.MONTH
-    const activeYear = filterActiveByMonthOrYear === FILTER_BY_MONTH_OR_YEAR.YEAR
+    const activePost = filterAction.filterbyAct === filter.FILTER_BY_POST
+    const activeWantToGo = filterAction.filterbyAct === filter.FILTER_BY_WANT_TO_GO
+    const activeMonth = filterAction.filterbyDate === filter.FILTER_BY_MONTH
+    const activeYear = filterAction.filterbyDate === filter.FILTER_BY_YEAR
 
     return (
         <View style={styles.wrapper_topUsers}>
@@ -37,23 +37,21 @@ const TopUsers: React.FC<TopUsersProps> = ({ data, navigation, userCurrent }) =>
                 <View style={styles.direct_container}>
                     <View style={styles.wrapper_action}>
                         <View style={styles.action}>
-                            <TouchableOpacity style={[styles.action_item, activePost && styles.action_item__active]} onPress={() => setActiveAct(FILTER_BY_ACT.POST)}>
+                            <TouchableOpacity style={[styles.action_item, activePost && styles.action_item__active]} onPress={() => dispatch(setFilterByAct(filter.FILTER_BY_POST))}>
                                 <Text style={[styles.text, activePost && styles.text__active]}>POST</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.action_item, activeWantToGo && styles.action_item__active2]} onPress={() => setActiveAct(FILTER_BY_ACT.WANT_TO_GO)}>
+                            <TouchableOpacity style={[styles.action_item, activeWantToGo && styles.action_item__active2]} onPress={() => dispatch(setFilterByAct(filter.FILTER_BY_WANT_TO_GO))}>
                                 <Text style={[styles.text, activeWantToGo && styles.text__active]}>WANT TO GO</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.wrapper_action}>
                         <View style={styles.filter}>
-                            <TouchableOpacity style={[styles.filter_item, activeMonth && styles.filter_active]} onPress={() => setFilterActiveByMonthOrYear(FILTER_BY_MONTH_OR_YEAR.MONTH)}>
+                            <TouchableOpacity style={[styles.filter_item, activeMonth && styles.filter_active]} onPress={() => dispatch(setFilterByDate(filter.FILTER_BY_MONTH))}>
                                 <Text style={[styles.filter_text, activeMonth && styles.filter_text__active]}>MONTHLY</Text>
-                                {/* {filterActiveByMonthOrYear ? (<View style={styles.pseudo}></View>) : ''} */}
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.filter_item, activeYear && styles.filter_active]} onPress={() => setFilterActiveByMonthOrYear(FILTER_BY_MONTH_OR_YEAR.YEAR)}>
+                            <TouchableOpacity style={[styles.filter_item, activeYear && styles.filter_active]} onPress={() => dispatch(setFilterByDate(filter.FILTER_BY_YEAR))}>
                                 <Text style={[styles.filter_text, activeYear && styles.filter_text__active]}>YEARLY</Text>
-                                {/* {filterActiveByMonthOrYear ? (<View style={styles.pseudo}></View>) : ''} */}
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -74,18 +72,14 @@ const TopUsers: React.FC<TopUsersProps> = ({ data, navigation, userCurrent }) =>
                         </View>
                         <View style={styles.current_ranking}>
                             <View style={styles.wrapper_icon}>
-                                {/* <Feather name="crown" size={24} color="black" /> */}
                                 <IconButton icon={props => <Icon name="crown" {...props} color="#ccc" size={18} />} />
-
                             </View>
                             <Text style={styles.your_current_ranking}>Your current ranking:</Text>
-                            <Text style={styles.current_number}>{userCurrent.rank}th</Text>
+                            <Text style={styles.current_number}>{rankCurrent}th</Text>
                         </View>
                     </View>
                 </View>
-                {/* <View style={styles.top3user_wrapper}> */}
-                <Top3Users data={data} navigation={navigation} userCurrent={userCurrent} />
-                {/* </View> */}
+                {memoizedTop3Users}
             </View>
         </View>
 

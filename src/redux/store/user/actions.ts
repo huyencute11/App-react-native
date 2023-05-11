@@ -24,9 +24,7 @@ export const getUsers = createAsyncThunk<
 >(
     'users/getUsers', // Action type
     async ({ date, isWantToGo }, { rejectWithValue }) => {
-
         try {
-
             const data = await (isWantToGo ? getUserByPostOrWantToGo(date) : getUserByMonthOrYear(date));
             return data;
             // get usser by want to go or post
